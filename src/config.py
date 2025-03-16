@@ -40,6 +40,7 @@ class Config:
     refresh_interval_daytime_minutes: int = environ.var(converter=int)
     refresh_interval_nighttime_minutes: int = environ.var(converter=int)
     dispositions: Disposition = environ.var(converter=dispositions_converter)
+    min_area: int = environ.var(converter=int)
 
     @environ.config()
     class Discord:

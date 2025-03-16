@@ -46,7 +46,9 @@ class ScraperBravis(ScraperBase):
 
         for item in soup.select("#search > .in .itemslist > .initemslist > .item"):
             params = item.select(".params > li")
-            logging.debug("BRAVIS Request params: %s", params)
+
+            if not self.is_area_sufficient(params[1].get_text()):
+                continue
             
             items.append(RentalOffer(
                 scraper = self,

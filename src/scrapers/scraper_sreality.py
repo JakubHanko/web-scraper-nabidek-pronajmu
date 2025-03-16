@@ -1,4 +1,5 @@
 import logging
+import re
 from time import time
 from urllib.parse import urljoin
 
@@ -7,10 +8,6 @@ import requests
 from disposition import Disposition
 from scrapers.rental_offer import RentalOffer
 from scrapers.scraper_base import ScraperBase
-from scrapers.rental_offer import RentalOffer
-from time import time
-import requests
-from urllib.parse import urljoin
 
 
 class ScraperSreality(ScraperBase):
@@ -124,6 +121,9 @@ class ScraperSreality(ScraperBase):
         for item in response["_embedded"]["estates"]:
             # Ignorovat "tip" nabídky, které úplně neodpovídají filtrům a mění se s každým vyhledáváním
             if item["region_tip"] > 0:
+                continue
+
+            if not self.is_area_sufficient(item["name"]):
                 continue
 
             items.append(RentalOffer(

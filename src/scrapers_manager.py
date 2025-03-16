@@ -12,13 +12,13 @@ from scrapers.scraper_sreality import ScraperSreality
 from scrapers.scraper_ulov_domov import ScraperUlovDomov
 
 
-def create_scrapers(dispositions: Disposition) -> list[ScraperBase]:
+def create_scrapers(dispositions: Disposition, min_area: int) -> list[ScraperBase]:
     return [
-        ScraperBravis(dispositions),
-        ScraperIdnesReality(dispositions),
-        ScraperRemax(dispositions),
-        ScraperSreality(dispositions),
-        ScraperUlovDomov(dispositions),
+        ScraperBravis(dispositions, min_area),
+        ScraperIdnesReality(dispositions, min_area),
+        ScraperRemax(dispositions, min_area),
+        ScraperSreality(dispositions, min_area),
+        ScraperUlovDomov(dispositions, min_area),
     ]
 
 

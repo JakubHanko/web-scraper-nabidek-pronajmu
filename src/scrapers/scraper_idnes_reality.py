@@ -7,9 +7,6 @@ from bs4 import BeautifulSoup
 from disposition import Disposition
 from scrapers.rental_offer import RentalOffer
 from scrapers.scraper_base import ScraperBase
-from scrapers.rental_offer import RentalOffer
-import requests
-from bs4 import BeautifulSoup
 
 
 class ScraperIdnesReality(ScraperBase):
@@ -39,6 +36,8 @@ class ScraperIdnesReality(ScraperBase):
     def build_response(self) -> requests.Response:
         url = "https://reality.idnes.cz/s/pronajem/byty/brno-mesto/?"
         url += "&".join(self.get_dispositions_data())
+        if self.min_area:
+            url += f"&s-qc%5BusableAreaMin%5D={self.min_area}"
 
         logging.debug("iDNES reality request: %s", url)
 

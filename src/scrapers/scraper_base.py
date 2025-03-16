@@ -1,3 +1,4 @@
+import re
 from abc import abstractmethod
 from typing import Any
 
@@ -14,6 +15,7 @@ class ScraperBase():
 
     user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"
     headers = {"User-Agent": user_agent}
+    area_regex = re.compile(r"(?P<area>\d+)\s*m²")
 
     @property
     @abstractmethod
@@ -35,11 +37,17 @@ class ScraperBase():
     def disposition_mapping(self) -> dict[Disposition, Any]:
         pass
 
-    def __init__(self, disposition: Disposition) -> None:
+    def __init__(self, disposition: Disposition, min_area: int) -> None:
         self.disposition = disposition
+        self.min_area = min_area
 
     def get_dispositions_data(self) -> list:
         return list(flatten([self.disposition_mapping[d] for d in self.disposition]))
+
+    def is_area_sufficient(self, area_string: str) -> bool:
+        match = self.area_regex.search(area_string)
+        area = int(match.group("area"))
+        return not area or area >= self.min_area
 
     @abstractmethod
     def build_response() -> Response:

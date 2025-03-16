@@ -20,7 +20,7 @@ client = discord.Client(intents=discord.Intents.default())
 daytime = get_current_daytime()
 interval_time = config.refresh_interval_daytime_minutes if daytime else config.refresh_interval_nighttime_minutes
 
-scrapers = create_scrapers(config.dispositions)
+scrapers = create_scrapers(config.dispositions, config.min_area)
 
 @client.event
 async def on_ready():

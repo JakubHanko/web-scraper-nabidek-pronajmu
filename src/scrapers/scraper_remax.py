@@ -8,9 +8,6 @@ from bs4 import BeautifulSoup
 from disposition import Disposition
 from scrapers.rental_offer import RentalOffer
 from scrapers.scraper_base import ScraperBase
-from scrapers.rental_offer import RentalOffer
-from urllib.parse import urljoin
-from bs4 import BeautifulSoup
 
 
 class ScraperRemax(ScraperBase):
@@ -48,6 +45,8 @@ class ScraperRemax(ScraperBase):
         url = self.base_url + "?regions%5B116%5D%5B3702%5D=on&sale=2"
         url += "".join(self.get_dispositions_data())
         url += "&order_by_published_date=0"
+        if self.min_area:
+            url += f"&area_from={self.min_area}"
 
         logging.debug("Remax request: %s", url)
 
