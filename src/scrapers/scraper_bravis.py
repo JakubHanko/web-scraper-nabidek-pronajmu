@@ -44,19 +44,17 @@ class ScraperBravis(ScraperBase):
 
         items: list[RentalOffer] = []
 
-        for item in soup.select("#search > .in > .itemslist > li"):
-            if item.get("class"):
-                continue
-
+        for item in soup.select("#search > .in .itemslist > .initemslist > .item"):
             params = item.select(".params > li")
-
+            logging.debug("BRAVIS Request params: %s", params)
+            
             items.append(RentalOffer(
                 scraper = self,
-                link = urljoin(self.base_url, item.select_one("a.main").get("href")),
-                title = "Pronájem " + params[1].find("strong").get_text().strip() + ", " + params[2].find("strong").get_text().strip(),
+                link = urljoin(self.base_url, item.select_one("a").get("href")),
+                title = "Pronájem " + params[0].get_text().strip() + ", " + params[1].get_text().strip(),
                 location = item.select_one(".location").get_text().strip(),
                 price = int(re.sub(r"[^\d]", "", [text for text in item.select_one(".price").stripped_strings][0])),
-                image_url = urljoin(self.base_url, item.select_one(".img > img").get("src"))
+                image_url = urljoin(self.base_url, item.select_one(".image img").get("src"))
             ))
 
         return items
