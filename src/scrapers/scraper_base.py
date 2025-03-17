@@ -15,7 +15,7 @@ class ScraperBase():
 
     user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"
     headers = {"User-Agent": user_agent}
-    area_regex = re.compile(r"(?P<area>\d+)\s*m²")
+    area_regex = re.compile(r"(?P<area>\d+)\s*m[²2]")
 
     @property
     @abstractmethod
