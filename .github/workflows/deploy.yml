@@ -1,0 +1,22 @@
+name: Deploy to Remote Instance
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH into Remote Instance, Pull and Restart Docker
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          script: |
+            cd /home/xhanko1/Projects/web-scraper-nabidek-pronajmu
+            git pull origin main
+            docker-compose down
+            docker-compose up -d --build

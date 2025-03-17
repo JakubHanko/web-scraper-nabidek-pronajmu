@@ -8,6 +8,8 @@ RUN apk add --no-cache --virtual .build-deps gcc musl-dev && \
     pip3 install -r requirements.txt && \
     apk del .build-deps
 
+RUN apk add --no-cache git
+
 ENV APP_ENV=docker
 
 COPY .env* ./
